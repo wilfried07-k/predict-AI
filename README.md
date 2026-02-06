@@ -1,4 +1,5 @@
 ﻿# predict-AI
+![tests](https://github.com/wilfried07-k/predict-AI/actions/workflows/tests.yml/badge.svg)
 
 Projet Python pour predire la situation economique d'un pays (ex. Cameroun).
 
@@ -102,3 +103,4 @@ curl -X POST http://127.0.0.1:8000/plot ^
 Les sorties versionnees sont dans `models/runs/` et `reports/runs/`.
 Le fichier `data/synthetic_cameroon_macro.csv` contient des donnees synthetiques jusqu en 2026.
 Remplace-le par vos donnees reelles si disponible.
+
