@@ -160,6 +160,8 @@ def health() -> dict:
 
 @app.get("/", response_class=HTMLResponse)
 def root():
+    config = load_config()
+    data_path = str(get_data_path(config, None))
     html = """
     <!doctype html>
     <html lang="fr">
@@ -185,6 +187,7 @@ def root():
           <div class="hero">
             <h1>predict-AI</h1>
             <p>API locale pour la prediction economique (inflation, chomage).</p>
+            <p>DATA_PATH: <code>""" + data_path + """</code></p>
             <p>Documentation interactive: <a href="/docs">/docs</a> ou <a href="/redoc">/redoc</a></p>
           </div>
           <div class="grid">
