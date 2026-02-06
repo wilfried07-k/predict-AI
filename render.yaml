@@ -10,6 +10,10 @@
         value: "1"
       - key: LOG_LEVEL
         value: "info"
+      - key: TZ
+        value: "Africa/Douala"
+      - key: DATA_PATH
+        value: "data/synthetic_cameroon_macro.csv"
 
   - type: cron
     name: predict-ai-train
@@ -23,6 +27,10 @@
         value: "1"
       - key: LOG_LEVEL
         value: "info"
+      - key: TZ
+        value: "Africa/Douala"
+      - key: DATA_PATH
+        value: "data/synthetic_cameroon_macro.csv"
 
   - type: cron
     name: predict-ai-evaluate
@@ -36,3 +44,7 @@
         value: "1"
       - key: LOG_LEVEL
         value: "info"
+      - key: TZ
+        value: "Africa/Douala"
+      - key: DATA_PATH
+        value: "data/synthetic_cameroon_macro.csv"

@@ -7,7 +7,7 @@ import argparse
 import joblib
 import yaml
 import matplotlib.pyplot as plt
-from sklearn.inspection import permutation_importance
+import os
 
 # Ensure repo root is on sys.path for direct script execution
 ROOT = Path(__file__).resolve().parents[1]
@@ -35,7 +35,8 @@ def main() -> None:
     config_path = Path(__file__).resolve().parents[1] / "configs" / "config.yaml"
     config = yaml.safe_load(config_path.read_text(encoding="utf8"))
 
-    data_path = Path(config["data"]["path"])
+    env_data_path = os.getenv("DATA_PATH")
+    data_path = Path(env_data_path) if env_data_path else Path(config["data"]["path"])
     model_output_dir = Path(config["model"]["output_dir"])
     feature_cols = config["model"]["feature_cols"]
     target_cols = config["model"]["target_cols"]
@@ -86,50 +87,6 @@ def main() -> None:
     plt.close(fig)
     print("Plot saved to:", plot_path)
 
-    # Linear model coefficients (if available)
-    linear_model_path = run_dir / "model_linear.joblib"
-    if linear_model_path.exists():
-        linear_model = joblib.load(linear_model_path)
-        coef = linear_model.named_steps["model"].coef_
-        scaler = linear_model.named_steps["scaler"]
-        feature_std = scaler.scale_
-        target_std = y.std(ddof=0).to_numpy()
-        coef_payload = []
-        for t_idx, target in enumerate(target_cols):
-            for f_idx, feature in enumerate(feature_cols):
-                std_coef = float(coef[t_idx, f_idx] * (feature_std[f_idx] / target_std[t_idx]))
-                coef_payload.append(
-                    {
-                        "target": target,
-                        "feature": feature,
-                        "coefficient": float(coef[t_idx, f_idx]),
-                        "std_coefficient": std_coef,
-                        "feature_std": float(feature_std[f_idx]),
-                        "target_std": float(target_std[t_idx]),
-                    }
-                )
-        coef_path = out_dir / "linear_coefficients.json"
-        coef_path.write_text(json.dumps(coef_payload, indent=2), encoding="utf8")
-        print("Linear coefficients saved to:", coef_path)
-
-        # Plot standardized coefficients per target
-        for target in target_cols:
-            rows = [r for r in coef_payload if r["target"] == target]
-            rows = sorted(rows, key=lambda r: abs(r["std_coefficient"]), reverse=True)
-            names = [r["feature"] for r in rows]
-            vals = [r["std_coefficient"] for r in rows]
-
-            fig, ax = plt.subplots(figsize=(8, 5))
-            ax.bar(names, vals)
-            ax.set_title(f"Standardized Coefficients - {target}")
-            ax.set_ylabel("Std Coefficient")
-            ax.set_xticklabels(names, rotation=45, ha="right")
-            fig.tight_layout()
-            plot_path = out_dir / f"linear_coefficients_{target}.png"
-            fig.savefig(plot_path)
-            plt.close(fig)
-            print("Linear coefficients plot saved to:", plot_path)
-
     # Feature importance (permutation)
     perm = permutation_importance(
         model,
@@ -165,6 +122,54 @@ def main() -> None:
     fig.savefig(plot_path)
     plt.close(fig)
     print("Feature importance plot saved to:", plot_path)
+
+    # Linear model coefficients (if available)
+    linear_coeff_path = None
+    linear_plots = []
+    linear_model_path = run_dir / "model_linear.joblib"
+    if linear_model_path.exists():
+        linear_model = joblib.load(linear_model_path)
+        coef = linear_model.named_steps["model"].coef_
+        scaler = linear_model.named_steps["scaler"]
+        feature_std = scaler.scale_
+        target_std = y.std(ddof=0).to_numpy()
+
+        coef_payload = []
+        for t_idx, target in enumerate(target_cols):
+            for f_idx, feature in enumerate(feature_cols):
+                std_coef = float(coef[t_idx, f_idx] * (feature_std[f_idx] / target_std[t_idx]))
+                coef_payload.append(
+                    {
+                        "target": target,
+                        "feature": feature,
+                        "coefficient": float(coef[t_idx, f_idx]),
+                        "std_coefficient": std_coef,
+                        "feature_std": float(feature_std[f_idx]),
+                        "target_std": float(target_std[t_idx]),
+                    }
+                )
+        linear_coeff_path = out_dir / "linear_coefficients.json"
+        linear_coeff_path.write_text(json.dumps(coef_payload, indent=2), encoding="utf8")
+        print("Linear coefficients saved to:", linear_coeff_path)
+
+        # Plot standardized coefficients per target
+        for target in target_cols:
+            rows = [r for r in coef_payload if r["target"] == target]
+            rows = sorted(rows, key=lambda r: abs(r["std_coefficient"]), reverse=True)
+            names = [r["feature"] for r in rows]
+            vals = [r["std_coefficient"] for r in rows]
+
+            fig, ax = plt.subplots(figsize=(8, 5))
+            ax.bar(names, vals)
+            ax.set_title(f"Standardized Coefficients - {target}")
+            ax.set_ylabel("Std Coefficient")
+            ax.set_xticklabels(names, rotation=45, ha="right")
+            fig.tight_layout()
+            coef_plot_path = out_dir / f"linear_coefficients_{target}.png"
+            fig.savefig(coef_plot_path)
+            plt.close(fig)
+            linear_plots.append(str(coef_plot_path))
+            print("Linear coefficients plot saved to:", coef_plot_path)
 
 
 if __name__ == "__main__":
