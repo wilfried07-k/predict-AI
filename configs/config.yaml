@@ -1,0 +1,26 @@
+﻿# Configuration de base
+project:
+  name: predict-AI
+  country: Cameroon
+
+data:
+  path: data/synthetic_cameroon_macro.csv
+
+model:
+  output_dir: models/runs
+  target_cols:
+    - inflation
+    - unemployment
+  feature_cols:
+    - gdp_growth
+    - exchange_rate
+    - oil_price
+    - imports
+    - exports
+  test_size: 0.2
+  random_state: 42
+  cv_folds: 5
+  cv_type: timeseries
+
+reports:
+  output_dir: reports/runs

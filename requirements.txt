@@ -1,0 +1,11 @@
+﻿# Python dependencies
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+pyyaml
+joblib
+pytest
+fastapi
+uvicorn
