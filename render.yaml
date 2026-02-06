@@ -1,0 +1,23 @@
+﻿services:
+  - type: web
+    name: predict-ai-api
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+
+  - type: cron
+    name: predict-ai-train
+    env: python
+    plan: free
+    schedule: "0 2 * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python scripts/run_training.py
+
+  - type: cron
+    name: predict-ai-evaluate
+    env: python
+    plan: free
+    schedule: "0 3 * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python scripts/run_evaluation.py
