@@ -1,6 +1,7 @@
 ﻿from pathlib import Path
 import sys
 import json
+import os
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
@@ -111,6 +112,15 @@ class RunsResponse(BaseModel):
 def load_config() -> dict:
     config_path = ROOT / "configs" / "config.yaml"
     return yaml.safe_load(config_path.read_text(encoding="utf8"))
+
+
+def get_data_path(config: dict, override_path: str | None) -> Path:
+    if override_path:
+        return Path(override_path)
+    env_path = os.getenv("DATA_PATH")
+    if env_path:
+        return Path(env_path)
+    return Path(config["data"]["path"])
 
 
 def resolve_model_path(config: dict, model_path: str | None) -> Path:
@@ -314,7 +324,7 @@ def train_endpoint(req: TrainRequest | None = None):
     config = load_config()
     req = req or TrainRequest()
 
-    data_path = Path(req.data_path) if req.data_path else Path(config["data"]["path"])
+    data_path = get_data_path(config, req.data_path)
     feature_cols = req.feature_cols or config["model"]["feature_cols"]
     target_cols = req.target_cols or config["model"]["target_cols"]
     test_size = req.test_size if req.test_size is not None else config["model"]["test_size"]
@@ -415,7 +425,7 @@ def evaluate_endpoint(req: EvaluateRequest | None = None):
     config = load_config()
     req = req or EvaluateRequest()
 
-    data_path = Path(req.data_path) if req.data_path else Path(config["data"]["path"])
+    data_path = get_data_path(config, req.data_path)
     model_output_dir = Path(config["model"]["output_dir"])
     reports_output_dir = (
         Path(req.reports_output_dir) if req.reports_output_dir else Path(config["reports"]["output_dir"])
@@ -566,7 +576,7 @@ def plot_endpoint(req: PlotRequest | None = None):
     config = load_config()
     req = req or PlotRequest()
 
-    data_path = Path(req.data_path) if req.data_path else Path(config["data"]["path"])
+    data_path = get_data_path(config, req.data_path)
     df = pd.read_csv(data_path)
 
     columns = req.columns or ["inflation", "unemployment", "gdp_growth"]
@@ -604,3 +614,4 @@ def runs_endpoint(req: RunsRequest | None = None):
         out.append({"run_id": run.name, **summary})
 
     return RunsResponse(runs=out)
+
