@@ -13,7 +13,7 @@
       - key: TZ
         value: "Africa/Douala"
       - key: DATA_PATH
-        value: "data/synthetic_cameroon_macro.csv"
+        value: "data/synthetic_poultry_farm.csv"
 
   - type: cron
     name: predict-ai-train
@@ -30,7 +30,7 @@
       - key: TZ
         value: "Africa/Douala"
       - key: DATA_PATH
-        value: "data/synthetic_cameroon_macro.csv"
+        value: "data/synthetic_poultry_farm.csv"
 
   - type: cron
     name: predict-ai-evaluate
@@ -47,4 +47,4 @@
       - key: TZ
         value: "Africa/Douala"
       - key: DATA_PATH
-        value: "data/synthetic_cameroon_macro.csv"
+        value: "data/synthetic_poultry_farm.csv"

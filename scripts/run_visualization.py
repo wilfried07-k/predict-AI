@@ -21,7 +21,7 @@ def main() -> None:
     df = load_csv(data_path)
 
     out_path = Path("reports") / "timeseries.png"
-    plot_timeseries(df, ["inflation", "unemployment", "gdp_growth"], out_path)
+    plot_timeseries(df, ["final_weight_kg", "mortality_rate_pct", "fcr"], out_path)
     print("Plot saved to:", out_path)
 
 

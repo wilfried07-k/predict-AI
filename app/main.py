@@ -186,7 +186,7 @@ def root():
         <div class="wrap">
           <div class="hero">
             <h1>predict-AI</h1>
-            <p>API locale pour la prediction economique (inflation, chomage).</p>
+            <p>API locale pour la prediction en elevage de poulets (broilers).</p>
             <p>DATA_PATH: <code>""" + data_path + """</code></p>
             <p>Documentation interactive: <a href="/docs">/docs</a> ou <a href="/redoc">/redoc</a></p>
           </div>
@@ -617,4 +617,3 @@ def runs_endpoint(req: RunsRequest | None = None):
         out.append({"run_id": run.name, **summary})
 
     return RunsResponse(runs=out)
-

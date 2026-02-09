@@ -4,19 +4,28 @@ project:
   country: Cameroon
 
 data:
-  path: data/synthetic_cameroon_macro.csv
+  path: data/synthetic_poultry_farm.csv
 
 model:
   output_dir: models/runs
   target_cols:
-    - inflation
-    - unemployment
+    - final_weight_kg
+    - mortality_rate_pct
+    - avg_daily_gain_g
+    - feed_intake_kg
+    - fcr
   feature_cols:
-    - gdp_growth
-    - exchange_rate
-    - oil_price
-    - imports
-    - exports
+    - age_days
+    - chick_weight_g
+    - temp_c
+    - humidity_pct
+    - stocking_density
+    - vaccine_score
+    - breed_index
+    - housing_quality
+    - feed_protein_pct
+    - water_quality
+    - management_index
   test_size: 0.2
   random_state: 42
   cv_folds: 5

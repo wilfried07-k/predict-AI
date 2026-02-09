@@ -3,6 +3,8 @@
 *.csv
 *.xlsx
 *.parquet
+!data/
+!data/synthetic_poultry_farm.csv
 /models/
 /reports/
 
