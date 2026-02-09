@@ -6,6 +6,6 @@ matplotlib
 seaborn
 pyyaml
 joblib
-pytest
 fastapi
 uvicorn
+python-dateutil
