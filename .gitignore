@@ -5,13 +5,12 @@
 *.parquet
 !data/
 !data/synthetic_poultry_farm.csv
-/models/
-/reports/
 
 # Python
 __pycache__/
 *.pyc
 .venv/
+venv/
 
 # Notebooks
 .ipynb_checkpoints/

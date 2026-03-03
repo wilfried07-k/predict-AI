@@ -1,19 +1,18 @@
-﻿# Configuration de base
-project:
-  name: predict-AI
-  country: Cameroon
+﻿project:
+  name: predict-AI-poultry
+  domain: poultry
 
 data:
   path: data/synthetic_poultry_farm.csv
 
 model:
-  output_dir: models/runs
   target_cols:
     - final_weight_kg
     - mortality_rate_pct
     - avg_daily_gain_g
     - feed_intake_kg
     - fcr
+    - annual_revenue_usd
   feature_cols:
     - age_days
     - chick_weight_g
@@ -26,10 +25,10 @@ model:
     - feed_protein_pct
     - water_quality
     - management_index
+    - flock_size
+    - feed_price_usd_kg
+    - sale_price_usd_kg
+    - energy_cost_usd
   test_size: 0.2
   random_state: 42
   cv_folds: 5
-  cv_type: timeseries
-
-reports:
-  output_dir: reports/runs

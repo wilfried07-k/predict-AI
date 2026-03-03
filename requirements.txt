@@ -9,3 +9,5 @@ joblib
 fastapi
 uvicorn
 python-dateutil
+sqlalchemy
+pymysql

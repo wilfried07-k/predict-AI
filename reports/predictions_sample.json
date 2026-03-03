@@ -1,0 +1,42 @@
+[
+  {
+    "final_weight_kg": 2.951226499940729,
+    "mortality_rate_pct": 0.5873339632104047,
+    "avg_daily_gain_g": 58.49550469525941,
+    "feed_intake_kg": 4.16386128130436,
+    "fcr": 1.4300342936119648,
+    "annual_revenue_usd": 15191.370800734676
+  },
+  {
+    "final_weight_kg": 3.0484662444267334,
+    "mortality_rate_pct": 0.5800898543328752,
+    "avg_daily_gain_g": 55.313175907837405,
+    "feed_intake_kg": 4.495594360340427,
+    "fcr": 1.46821841365556,
+    "annual_revenue_usd": 79318.71109654848
+  },
+  {
+    "final_weight_kg": 3.2123584803055367,
+    "mortality_rate_pct": 0.5698697005000929,
+    "avg_daily_gain_g": 58.077712857099264,
+    "feed_intake_kg": 4.731572047393408,
+    "fcr": 1.4718615626183689,
+    "annual_revenue_usd": 89301.14846053615
+  },
+  {
+    "final_weight_kg": 2.9215773513042063,
+    "mortality_rate_pct": 0.5137172152132105,
+    "avg_daily_gain_g": 58.62131375427411,
+    "feed_intake_kg": 4.134302000208994,
+    "fcr": 1.4181528255494966,
+    "annual_revenue_usd": 7213.835072188078
+  },
+  {
+    "final_weight_kg": 2.3090129490579283,
+    "mortality_rate_pct": 1.5058289516311358,
+    "avg_daily_gain_g": 57.63836128233994,
+    "feed_intake_kg": 3.0979760793245115,
+    "fcr": 1.3349366618479672,
+    "annual_revenue_usd": 94627.89771016114
+  }
+]
